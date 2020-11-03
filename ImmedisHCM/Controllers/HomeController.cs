@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using ImmedisHCM.Models;
+using ImmedisHCM.Web.Models;
 
-namespace ImmedisHCM.Controllers
+namespace ImmedisHCM.Web.Controllers
 {
     public class HomeController : Controller
     {

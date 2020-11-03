@@ -1,6 +1,6 @@
 using System;
 
-namespace ImmedisHCM.Models
+namespace ImmedisHCM.Web.Models
 {
     public class ErrorViewModel
     {
