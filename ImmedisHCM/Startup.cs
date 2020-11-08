@@ -2,6 +2,7 @@ using AutoMapper;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using ImmedisHCM.Data.Identity.Entities;
+using ImmedisHCM.Data.Infrastructure;
 using ImmedisHCM.Web.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,6 +38,9 @@ namespace ImmedisHCM.Web
             });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>))
+                    .AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
 
             services.AddControllersWithViews();
         }
