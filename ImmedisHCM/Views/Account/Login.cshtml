@@ -2,7 +2,6 @@
 @using System.Linq
 @using Microsoft.AspNetCore.Http
 @model LoginViewModel
-@inject SignInManager<WebUser> SignInManager
 
 @{
     ViewData["Title"] = "Log in";
@@ -51,5 +50,5 @@
 </div>
 
 @section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
+   <partial name="_ValidationScriptsPartial" />
 }

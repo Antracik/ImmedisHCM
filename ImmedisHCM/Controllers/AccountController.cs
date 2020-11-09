@@ -4,6 +4,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ImmedisHCM.Data.Identity.Entities;
+using ImmedisHCM.Services.Identity;
+using ImmedisHCM.Services.Models.Identity;
 using ImmedisHCM.Web.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -16,21 +18,17 @@ namespace ImmedisHCM.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<WebUser> _userManager;
-        private readonly SignInManager<WebUser> _signInManager;
+        private readonly IAccountService _accountService;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
         public AccountController(
-            UserManager<WebUser> userManager,
-            SignInManager<WebUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger, IAccountService accountService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _accountService = accountService;
         }
 
         [TempData]
@@ -58,7 +56,7 @@ namespace ImmedisHCM.Web.Controllers
                 // This does not count login failures towards account lockout
                 // To enable password failures to trigger account lockout,
                 // set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _accountService.PasswordSignInAsync(model.Email, model.Password, model.RememberMe);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -104,8 +102,8 @@ namespace ImmedisHCM.Web.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new WebUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                var user = new UserServiceModel { UserName = model.Email, Email = model.Email };
+                var result = await _accountService.CreateUserAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -114,7 +112,7 @@ namespace ImmedisHCM.Web.Controllers
                     //var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     //await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    await _accountService.PasswordSignInAsync(user.UserName, model.Password, false);
                     _logger.LogInformation("User created a new account with password.");
                     return RedirectToLocal(returnUrl);
                 }
@@ -129,27 +127,9 @@ namespace ImmedisHCM.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            await _accountService.SignOutAsync();
             _logger.LogInformation("User logged out.");
             return RedirectToAction(nameof(HomeController.Index), "Home");
-        }
-
-
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> ConfirmEmail(string userId, string code)
-        {
-            if (userId == null || code == null)
-            {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
-            }
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{userId}'.");
-            }
-            var result = await _userManager.ConfirmEmailAsync(user, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
         [HttpGet]
@@ -166,8 +146,8 @@ namespace ImmedisHCM.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                var user = await _accountService.GetByEmailAsync(model.Email);
+                if (user == null )
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return RedirectToAction(nameof(ForgotPasswordConfirmation));
@@ -175,14 +155,14 @@ namespace ImmedisHCM.Web.Controllers
 
                 // For more information on how to enable account confirmation and password reset please
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
-                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.Action(
-                    action: nameof(AccountController.ResetPassword),
-                    controller: "Account",
-                    values: new { user.Id, code },
-                    protocol: Request.Scheme);
-                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+                //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                //var callbackUrl = Url.Action(
+                //    action: nameof(AccountController.ResetPassword),
+                //    controller: "Account",
+                //    values: new { user.Id, code },
+                //    protocol: Request.Scheme);
+                //await _emailSender.SendEmailAsync(model.Email, "Reset Password",
+                //   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 
@@ -207,30 +187,6 @@ namespace ImmedisHCM.Web.Controllers
             }
             var model = new ResetPasswordViewModel { Code = code };
             return View(model);
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null)
-            {
-                // Don't reveal that the user does not exist
-                return RedirectToAction(nameof(ResetPasswordConfirmation));
-            }
-            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
-            if (result.Succeeded)
-            {
-                return RedirectToAction(nameof(ResetPasswordConfirmation));
-            }
-            AddErrors(result);
-            return View();
         }
 
         [HttpGet]

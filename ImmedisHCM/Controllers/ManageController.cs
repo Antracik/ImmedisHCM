@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using ImmedisHCM.Data.Identity.Entities;
+using ImmedisHCM.Services.Identity;
 using ImmedisHCM.Web.Models.ManageViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -19,27 +20,20 @@ namespace ImmedisHCM.Web.Controllers
     [Route("Account/[controller]/[action]")]
     public class ManageController : Controller
     {
-        private readonly UserManager<WebUser> _userManager;
-        private readonly SignInManager<WebUser> _signInManager;
+        private readonly IManageService _manageService;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
 
-        private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
-        private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
-
         public ManageController(
-          UserManager<WebUser> userManager,
-          SignInManager<WebUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder, IManageService manageService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _manageService = manageService;
         }
 
         [TempData]
@@ -48,10 +42,10 @@ namespace ImmedisHCM.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _manageService.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ApplicationException($"Unable to load user with email '{User.Identity.Name}'.");
             }
             
             var model = new IndexViewModel
@@ -73,17 +67,16 @@ namespace ImmedisHCM.Web.Controllers
             {
                 return View(model);
             }
-
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _manageService.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ApplicationException($"Unable to load user with email '{User.Identity.Name}'.");
             }
 
             var email = user.Email;
             if (model.Email != email)
             {
-                var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
+                var setEmailResult = await _manageService.SetEmailAsync(user, model.Email);
                 if (!setEmailResult.Succeeded)
                 {
                     throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
@@ -93,7 +86,7 @@ namespace ImmedisHCM.Web.Controllers
             var phoneNumber = user.PhoneNumber;
             if (model.PhoneNumber != phoneNumber)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
+                var setPhoneResult = await _manageService.SetPhoneNumberAsync(user, model.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
                     throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
@@ -107,10 +100,10 @@ namespace ImmedisHCM.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> ChangePassword()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _manageService.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ApplicationException($"Unable to load user with email '{User.Identity.Name}'.");
             }
 
             var model = new ChangePasswordViewModel { StatusMessage = StatusMessage };
@@ -126,20 +119,20 @@ namespace ImmedisHCM.Web.Controllers
                 return View(model);
             }
 
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _manageService.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ApplicationException($"Unable to load user with email '{User.Identity.Name}'.");
             }
 
-            var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            var changePasswordResult = await _manageService.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
                 AddErrors(changePasswordResult);
                 return View(model);
             }
 
-            await _signInManager.SignInAsync(user, isPersistent: false);
+            await _manageService.SignInAsync(user, model.NewPassword, isPersistent: false);
             _logger.LogInformation("User changed their password successfully.");
             StatusMessage = "Your password has been changed.";
 
