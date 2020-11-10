@@ -1,9 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using ImmedisHCM.Web.Models;
-using ImmedisHCM.Data.Infrastructure;
-using ImmedisHCM.Data.Identity.Entities;
 
 namespace ImmedisHCM.Web.Controllers
 {

@@ -1,11 +1,6 @@
 ﻿using ImmedisHCM.Data.Identity;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ImmedisHCM.Web.Extensions
 {

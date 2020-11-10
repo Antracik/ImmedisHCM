@@ -1,5 +1,3 @@
-using System;
-
 namespace ImmedisHCM.Web.Models
 {
     public class ErrorViewModel

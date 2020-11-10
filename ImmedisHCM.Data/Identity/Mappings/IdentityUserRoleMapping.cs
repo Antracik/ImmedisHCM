@@ -1,8 +1,6 @@
 ﻿using FluentNHibernate.Mapping;
 using ImmedisHCM.Data.Identity.Entities;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ImmedisHCM.Data.Identity.Mappings
 {

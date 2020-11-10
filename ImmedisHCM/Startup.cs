@@ -1,7 +1,4 @@
 using AutoMapper;
-using FluentNHibernate.Cfg;
-using FluentNHibernate.Cfg.Db;
-using ImmedisHCM.Data.Identity.Entities;
 using ImmedisHCM.Data.Infrastructure;
 using ImmedisHCM.Services.Identity;
 using ImmedisHCM.Web.Extensions;
