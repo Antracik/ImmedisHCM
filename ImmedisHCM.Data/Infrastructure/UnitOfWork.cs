@@ -43,7 +43,7 @@ namespace ImmedisHCM.Data.Infrastructure
         {
             if (!_transaction.IsActive)
                 throw new InvalidOperationException("Cannot commit to inactive transaction.");
-                _transaction.Commit();
+            _transaction.Commit();
 
         }
 
@@ -63,7 +63,7 @@ namespace ImmedisHCM.Data.Infrastructure
         public Task RollbackAsync()
         {
             if (_transaction.IsActive)
-             return  _transaction.RollbackAsync();
+                return _transaction.RollbackAsync();
             return Task.CompletedTask;
         }
 

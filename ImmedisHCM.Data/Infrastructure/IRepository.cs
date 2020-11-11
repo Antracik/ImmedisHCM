@@ -14,9 +14,11 @@ namespace ImmedisHCM.Data.Infrastructure
         Task<string> AddItemAsync(TEntity item);
 
         List<TEntity> Get(Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null);
+                          Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+                          Func<IQueryable<TEntity>, IQueryable<TEntity>> fetch = null);
         Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null);
+                                     Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+                                     Func<IQueryable<TEntity>, IQueryable<TEntity>> fetch = null);
 
         TEntity GetById(string id);
         Task<TEntity> GetByIdAsync(string id);

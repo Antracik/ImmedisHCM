@@ -6,9 +6,9 @@ namespace ImmedisHCM.Data.Entities
 {
     public class SalaryHistory
     {
-        public virtual Salary Salary { get; set; }
-        public virtual Guid SalaryId { get; set; }
         public virtual DateTime DateChanged { get; set; }
+        public virtual Guid SalaryId { get; set; }
+        public virtual Salary Salary { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual decimal Amount { get; set; }
         public virtual DateTime FromDate { get; set; }

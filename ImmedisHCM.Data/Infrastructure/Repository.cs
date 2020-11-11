@@ -5,6 +5,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using NHibernate.Linq;
+using ImmedisHCM.Data.Entities;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ImmedisHCM.Data.Infrastructure
 {
@@ -15,7 +17,7 @@ namespace ImmedisHCM.Data.Infrastructure
         private IQueryable<TEntity> _query;
 
         protected ISession Session => _session;
-        protected IQueryable<TEntity> Entity => _query;
+        public IQueryable<TEntity> Entity => _query;
 
         public Repository(ISession session)
         {
@@ -41,18 +43,24 @@ namespace ImmedisHCM.Data.Infrastructure
 
         public string AddItem(TEntity item)
         {
-            return (string)_session.Save(item);
+            return _session.Save(item).ToString();
         }
 
         public async Task<string> AddItemAsync(TEntity item)
         {
-            return await _session.SaveAsync(item) as string;
+            return (await _session.SaveAsync(item)).ToString();
         }
 
-        public List<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
+        public List<TEntity> Get(Expression<Func<TEntity, bool>> filter = null,
+                                 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+                                 Func<IQueryable<TEntity>, IQueryable<TEntity>> fetch = null)
         {
             if (filter != null)
                 _query = _query.Where(filter);
+
+            if (fetch != null)
+                _query = fetch(_query);
+            
 
             if (orderBy != null)
                 return orderBy(_query).ToList();
@@ -60,10 +68,15 @@ namespace ImmedisHCM.Data.Infrastructure
             return _query.ToList();
         }
 
-        public Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
+        public Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null,
+                                            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+                                            Func<IQueryable<TEntity>, IQueryable<TEntity>> fetch = null)
         {
             if(filter != null)
                 _query = _query.Where(filter);
+
+            if (fetch != null)
+                _query = fetch(_query);
 
             if (orderBy != null)
                 return orderBy(_query).ToListAsync();
