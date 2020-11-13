@@ -15,8 +15,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\" />
     <Folder Include="Models\Core\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Core\SeedResources\Addresses.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Core\SeedResources\RandomECPhoneNumbers.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Core\SeedResources\RandomEmails.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Core\SeedResources\RandomEmpPhoneNumbers.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Core\SeedResources\RandomNames.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

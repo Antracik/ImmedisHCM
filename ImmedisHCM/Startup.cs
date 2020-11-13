@@ -1,5 +1,6 @@
 using AutoMapper;
 using ImmedisHCM.Data.Infrastructure;
+using ImmedisHCM.Services.Core;
 using ImmedisHCM.Services.Identity;
 using ImmedisHCM.Web.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -40,13 +41,18 @@ namespace ImmedisHCM.Web
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>))
                     .AddScoped(typeof(IAccountService), typeof(AccountService))
                     .AddScoped(typeof(IManageService), typeof(ManageService))
-                    .AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+                    .AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork))
+                    .AddScoped(typeof(IIdentitySeeder), typeof(IdentitySeeder))
+                    .AddScoped(typeof(IDatabaseSeeder), typeof(DatabaseSeeder));
 
             services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, 
+                              IWebHostEnvironment env, 
+                              IIdentitySeeder identitySeeder, 
+                              IDatabaseSeeder databaseSeeder)
         {
             if (env.IsDevelopment())
             {
@@ -73,6 +79,11 @@ namespace ImmedisHCM.Web
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            identitySeeder.Seed();
+            //Identity seeder needs to be run first so roles and admin are seeded
+            databaseSeeder.Seed();
+
         }
     }
 }
