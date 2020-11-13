@@ -35,8 +35,9 @@ namespace ImmedisHCM.Data.Infrastructure
         {
             if (_transaction != null)
                 throw new InvalidOperationException("Cannot have more than one transaction per session.");
-
-            _transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted);
+            if(_session == null)
+                _session = _sessionFactory.OpenSession();
+            _transaction = _session.BeginTransaction();
         }
 
         public void Commit()
@@ -44,6 +45,7 @@ namespace ImmedisHCM.Data.Infrastructure
             if (!_transaction.IsActive)
                 throw new InvalidOperationException("Cannot commit to inactive transaction.");
             _transaction.Commit();
+            Dispose();
 
         }
 
@@ -70,10 +72,20 @@ namespace ImmedisHCM.Data.Infrastructure
         public void Dispose()
         {
             if (_session != null)
+            {
                 _session.Dispose();
+                _session = null;
+            }
 
             if (_transaction != null)
+            {
                 _transaction.Dispose();
+                _transaction = null;
+            }
+            if(_repositories != null)
+            {
+                _repositories.Clear();
+            }
         }
 
     }

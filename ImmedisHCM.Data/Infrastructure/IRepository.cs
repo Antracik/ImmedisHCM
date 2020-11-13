@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NHibernate;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,6 +9,7 @@ namespace ImmedisHCM.Data.Infrastructure
 {
     public interface IRepository<TEntity> where TEntity : class
     {
+        IQueryable<TEntity> Entity { get; }
         void AddRange(IEnumerable<TEntity> rangeList);
         Task AddRangeAsync(IEnumerable<TEntity> rangeList);
         string AddItem(TEntity item);

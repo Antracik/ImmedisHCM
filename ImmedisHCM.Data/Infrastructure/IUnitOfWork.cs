@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NHibernate;
+using System;
 using System.Threading.Tasks;
 
 namespace ImmedisHCM.Data.Infrastructure
