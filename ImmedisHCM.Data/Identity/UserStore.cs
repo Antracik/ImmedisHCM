@@ -1,13 +1,13 @@
-﻿using System;
+﻿using ImmedisHCM.Data.Identity.Entities;
+using Microsoft.AspNetCore.Identity;
+using NHibernate;
+using NHibernate.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using ImmedisHCM.Data.Identity.Entities;
-using Microsoft.AspNetCore.Identity;
-using NHibernate;
-using NHibernate.Linq;
 
 namespace ImmedisHCM.Data.Identity
 {

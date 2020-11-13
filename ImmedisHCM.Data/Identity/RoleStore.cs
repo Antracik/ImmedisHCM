@@ -1,6 +1,6 @@
 ﻿using ImmedisHCM.Data.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using NHibernate.Linq;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -160,8 +160,8 @@ namespace ImmedisHCM.Data.Identity
             }
 
             var claims = await RoleClaims
-                .Where(rc => rc.RoleId == role.Id)
-                .Select(c => new Claim(c.ClaimType, c.ClaimValue))
+                .Where(rc => rc.RoleId.ToString() == role.Id.ToString())
+                .Select(c => new Claim(c.ClaimType.ToString(), c.ClaimValue.ToString()))
                 .ToListAsync(cancellationToken);
             return claims;
         }
