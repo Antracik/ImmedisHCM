@@ -1,6 +1,7 @@
 ﻿using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using ImmedisHCM.Data.Identity.Entities;
+using ImmedisHCM.Web.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ImmedisHCM.Web.Extensions
@@ -23,8 +24,11 @@ namespace ImmedisHCM.Web.Extensions
         {
             var sessionFactory = Fluently.Configure()
                                     .Database(PostgreSQLConfiguration.PostgreSQL82
-                                    .ConnectionString(connectionString))
+                                    .ConnectionString(connectionString)
+                                    .FormatSql()
+                                    .ShowSql())
                                     .Mappings(x => x.FluentMappings.AddFromAssemblyOf<WebUser>())
+                                    .ExposeConfiguration(x => x.SetInterceptor(new SqlStatementInterceptor()))
                                     .BuildSessionFactory();
 
             services.AddSingleton(sessionFactory);
