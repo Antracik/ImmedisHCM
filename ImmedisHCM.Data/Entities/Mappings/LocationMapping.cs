@@ -11,7 +11,7 @@ namespace ImmedisHCM.Data.Entities.Mappings
     {
         public LocationMapping()
         {
-            Table("location");
+            Table("locations");
 
             Id(x => x.Id)
                 .Column("id")
@@ -31,7 +31,7 @@ namespace ImmedisHCM.Data.Entities.Mappings
 
             References(x => x.City)
                 .Column("city_id")
-                .Not.Nullable();
+                .Nullable();
 
         }
     }

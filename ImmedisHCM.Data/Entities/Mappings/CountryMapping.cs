@@ -22,9 +22,6 @@ namespace ImmedisHCM.Data.Entities.Mappings
                 .Column("short_name")
                 .Not.Nullable();
 
-            References(x => x.Capital)
-                .Nullable();
-
             HasMany(x => x.Cities)
                 .KeyColumn("country_id")
                 .Inverse()

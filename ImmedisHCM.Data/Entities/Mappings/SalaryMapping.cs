@@ -20,8 +20,17 @@ namespace ImmedisHCM.Data.Entities.Mappings
                 .Column("amount")
                 .Not.Nullable();
 
-            HasOne(x => x.SalaryType);
-            HasOne(x => x.Currency);
+            References(x => x.SalaryType)
+                .Column("salary_type_id")
+                .Not.Nullable();
+
+            References(x => x.Currency)
+                .Column("currency_id")
+                .Not.Nullable();
+
+            HasOne(x => x.Employee)
+                .ForeignKey("salary_id");
+                
 
         }
     }

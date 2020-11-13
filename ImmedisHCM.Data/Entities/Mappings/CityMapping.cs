@@ -23,6 +23,8 @@ namespace ImmedisHCM.Data.Entities.Mappings
                 .Columns("country_id")
                 .Not.Nullable()
                 .Fetch.Join();
+
+
         }
     }
 }

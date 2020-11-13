@@ -44,32 +44,37 @@ namespace ImmedisHCM.Data.Entities.Mappings
 
             Map(x => x.LeftDate)
                 .Column("left_date")
+                .Nullable();
+
+            References(x => x.Job)
+                .Column("job_id")
+                .Fetch.Select()
                 .Not.Nullable();
 
             References(x => x.EmergencyContact)
                 .Column("emergency_contact_id")
                 .Nullable()
-                .Fetch.Join();
+                .Fetch.Select();
 
             References(x => x.Department)
                 .Column("department_id")
                 .Not.Nullable()
-                .Fetch.Join();
+                .Fetch.Select();
 
             References(x => x.Location)
                 .Column("location_id")
                 .Not.Nullable()
-                .Fetch.Join();
+                .Fetch.Select();
 
             References(x => x.Manager)
                 .Column("manager_id")
                 .Nullable()
-                .Fetch.Join();
+                .Fetch.Select();
 
             References(x => x.Salary)
                 .Column("salary_id")
                 .Not.Nullable()
-                .Fetch.Join();
+                .Fetch.Select();
 
         }
     }

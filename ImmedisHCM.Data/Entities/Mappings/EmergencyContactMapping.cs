@@ -10,7 +10,7 @@ namespace ImmedisHCM.Data.Entities.Mappings
     {
         public EmergencyContactMapping()
         {
-            Table("jobs");
+            Table("emergency_contacts");
 
             Id(x => x.Id)
                 .Column("id")

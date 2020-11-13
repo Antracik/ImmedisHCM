@@ -25,6 +25,7 @@ namespace ImmedisHCM.Data.Entities.Mappings
 
             Map(x => x.StartTime)
                 .Column("start_time")
+                .CustomType("time")
                 .Not.Nullable();
 
             HasMany(x => x.Jobs);
