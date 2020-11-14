@@ -1,11 +1,4 @@
 ﻿using FluentNHibernate.Mapping;
-using FluentNHibernate.MappingModel.Collections;
-using NHibernate.Linq;
-using NHibernate.Type;
-using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace ImmedisHCM.Data.Entities.Mappings
 {

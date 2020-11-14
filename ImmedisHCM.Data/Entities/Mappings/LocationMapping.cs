@@ -1,9 +1,4 @@
-﻿using FluentNHibernate.Conventions;
-using FluentNHibernate.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
+﻿using FluentNHibernate.Mapping;
 
 namespace ImmedisHCM.Data.Entities.Mappings
 {
