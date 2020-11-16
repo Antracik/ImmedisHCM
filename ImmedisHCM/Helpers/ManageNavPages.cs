@@ -11,9 +11,15 @@ namespace ImmedisHCM.Web.Helpers
         public static string Profile => "Profile";
 
         public static string ChangePassword => "ChangePassword";
+        
+        public static string EmergencyContact => "EmergencyContact";
+
+
         public static string ProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, Profile);
 
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
+        
+        public static string EmergencyContactNavClass(ViewContext viewContext) => PageNavClass(viewContext, EmergencyContact);
 
         public static string PageNavClass(ViewContext viewContext, string page)
         {
