@@ -35,6 +35,13 @@ namespace ImmedisHCM.Services.Identity
             return _signInManager.PasswordSignInAsync(userName, password, isPersistent, false);
         }
 
+        public async Task PasswordSignInAsync(UserServiceModel user, string password, bool isPersistent)
+        {
+            var model = _mapper.Map<WebUser>(user);
+
+            await _signInManager.PasswordSignInAsync(model, password, isPersistent, false);
+        }
+
         public async Task<UserServiceModel> GetByIdAsync(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -50,6 +57,17 @@ namespace ImmedisHCM.Services.Identity
             var model = _mapper.Map<UserServiceModel>(user);
             return model;
         }
+
+        public async Task<UserServiceModel> GetUserAsync(ClaimsPrincipal principal)
+        {
+            var model = await _userManager.GetUserAsync(principal);
+            if (model == null)
+                return null;
+
+            var user = _mapper.Map<UserServiceModel>(model);
+            return user;
+        }
+
         public string GetUserId(ClaimsPrincipal principal)
         {
             return _userManager.GetUserId(principal);
@@ -59,5 +77,7 @@ namespace ImmedisHCM.Services.Identity
         {
             return _signInManager.SignOutAsync();
         }
+
+       
     }
 }
