@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using ImmedisHCM.Services.Identity;
 using ImmedisHCM.Services.Models.Identity;
-using ImmedisHCM.Web.Models.AccountViewModels;
+using ImmedisHCM.Web.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
