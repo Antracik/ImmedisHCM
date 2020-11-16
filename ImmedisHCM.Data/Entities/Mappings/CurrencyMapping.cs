@@ -18,8 +18,7 @@ namespace ImmedisHCM.Data.Entities.Mappings
 
             HasMany(x => x.Salaries)
                 .Inverse()
-                .KeyColumn("currency_id")
-                .Fetch.Select();
+                .KeyColumn("currency_id");
         }
     }
 }

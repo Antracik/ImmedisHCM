@@ -35,6 +35,10 @@ namespace ImmedisHCM.Data.Entities.Mappings
             References(x => x.Location)
                 .Column("location_id")
                 .Nullable();
+
+            HasOne(x => x.Employee)
+                .PropertyRef(x => x.EmergencyContact)
+                .LazyLoad();
         }
     }
 }

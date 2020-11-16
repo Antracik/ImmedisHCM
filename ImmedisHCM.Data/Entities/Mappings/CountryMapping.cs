@@ -20,8 +20,7 @@ namespace ImmedisHCM.Data.Entities.Mappings
 
             HasMany(x => x.Cities)
                 .KeyColumn("country_id")
-                .Inverse()
-                .Fetch.Join();
+                .Inverse();
         }
     }
 }

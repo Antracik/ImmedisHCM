@@ -17,8 +17,7 @@ namespace ImmedisHCM.Data.Entities.Mappings
 
             References(x => x.Country)
                 .Columns("country_id")
-                .Not.Nullable()
-                .Fetch.Join();
+                .Not.Nullable();
 
 
         }

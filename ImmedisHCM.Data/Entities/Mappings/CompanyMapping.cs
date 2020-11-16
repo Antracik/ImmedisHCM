@@ -20,8 +20,7 @@ namespace ImmedisHCM.Data.Entities.Mappings
 
             HasMany(x => x.Departments)
                 .KeyColumn("company_id")
-                .Inverse()
-                .Fetch.Select();
+                .Inverse();
         }
     }
 }

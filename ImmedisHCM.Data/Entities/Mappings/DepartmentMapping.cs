@@ -18,22 +18,21 @@ namespace ImmedisHCM.Data.Entities.Mappings
             References(x => x.Manager)
                 .Column("manager_id")
                 .Nullable()
-                .Fetch.Join();
+                ;
 
             References(x => x.Location)
                 .Column("location_id")
                 .Not.Nullable()
-                .Fetch.Join();
+                ;
 
             References(x => x.Company)
                 .Column("company_id")
                 .Not.Nullable()
-                .Fetch.Join();
+                ;
 
             HasMany(x => x.Employees)
                 .KeyColumn("department_id")
-                .Inverse()
-                .Fetch.Select();
+                .Inverse();
         }
     }
 }
