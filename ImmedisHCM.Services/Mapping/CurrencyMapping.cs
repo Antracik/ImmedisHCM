@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ImmedisHCM.Data.Entities;
 using ImmedisHCM.Services.Models.Core;
+using NHibernate;
 
 namespace ImmedisHCM.Services.Mapping
 { 
@@ -8,7 +9,9 @@ namespace ImmedisHCM.Services.Mapping
     {
         public CurrencyMapping()
         {
-            CreateMap<Currency, CurrencyServiceModel>().ReverseMap();
+            CreateMap<Currency, CurrencyServiceModel>().
+                ForMember(dest => dest.Salaries, opts => opts.PreCondition(src => NHibernateUtil.IsInitialized(src.Salaries)))
+                .ReverseMap();
         }
     }
 }

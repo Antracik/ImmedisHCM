@@ -8,7 +8,8 @@ namespace ImmedisHCM.Services.Mapping
     {
         public EmergencyContactMapping()
         {
-            CreateMap<EmergencyContact, EmergencyContactServiceModel>().ReverseMap();
+            CreateMap<EmergencyContact, EmergencyContactServiceModel>()
+                .ForSourceMember(x => x.Employee, opts => opts.DoNotValidate()).ReverseMap();
         }
     }
 }

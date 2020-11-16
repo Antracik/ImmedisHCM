@@ -8,7 +8,7 @@ namespace ImmedisHCM.Services.Mapping
     {
         public SalaryTypeMapping()
         {
-            CreateMap<Salary, SalaryServiceModel>().ReverseMap();
+            CreateMap<SalaryType, SalaryTypeServiceModel>().ReverseMap();
         }
     }
 }

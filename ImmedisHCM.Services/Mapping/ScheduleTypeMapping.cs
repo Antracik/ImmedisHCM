@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ImmedisHCM.Data.Entities;
 using ImmedisHCM.Services.Models.Core;
+using NHibernate;
 
 namespace ImmedisHCM.Services.Mapping
 {
@@ -8,7 +9,9 @@ namespace ImmedisHCM.Services.Mapping
     {
         public ScheduleTypeMapping()
         {
-            CreateMap<ScheduleType, ScheduleTypeServiceModel>().ReverseMap();
+            CreateMap<ScheduleType, ScheduleTypeServiceModel>()
+                .ForMember(dest => dest.Jobs, opts => opts.PreCondition(src => NHibernateUtil.IsInitialized(src.Jobs)))
+                .ReverseMap();
         }
     }
 }
