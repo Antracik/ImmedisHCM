@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ImmedisHCM.Web.Models.ManageViewModels
+namespace ImmedisHCM.Web.Models
 {
     public class ChangePasswordViewModel
     {
