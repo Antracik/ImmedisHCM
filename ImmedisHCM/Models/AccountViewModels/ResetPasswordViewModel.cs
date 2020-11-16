@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ImmedisHCM.Web.Models.AccountViewModels
+namespace ImmedisHCM.Web.Models
 {
     public class ResetPasswordViewModel
     {
