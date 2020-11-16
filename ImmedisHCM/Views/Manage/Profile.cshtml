@@ -1,32 +1,77 @@
-﻿@model IndexViewModel
+﻿@model ProfileViewModel
 @{
     ViewData["Title"] = "Profile";
     ViewData.SetActivePage(ManageNavPages.Profile);
 }
 
-<h4>@ViewData["Title"]</h4>
+<h4 class="mx-2">@ViewData["Title"]</h4>
 <partial name="_StatusMessage" model="Model.StatusMessage " />
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <form method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                <div class="input-group">
-                    <input asp-for="Email" class="form-control" />
-                    <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Username" class="mx-2"></label>
+                    <input asp-for="Username" class="form-control mx-2" disabled />
                 </div>
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <div class="form-group col-md-6">
+                    <label asp-for="Email" class="mx-2"></label>
+                    <div class="form-group">
+                        <input asp-for="Email" class="form-control mx-2" />
+                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
+            @if (!User.IsInRole("Admin"))
+            {
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="FirstName" class="mx-2"></label>
+                        <input asp-for="FirstName" class="form-control  mx-2" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="LastName" class="mx-2"></label>
+                        <input asp-for="LastName" class="form-control mx-2" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label asp-for="PhoneNumber" class="mx-2"></label>
+                        <input asp-for="PhoneNumber" class="form-control mx-2" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="Location.AddressLine1" class="mx-2"></label>
+                        <input asp-for="Location.AddressLine1" class="form-control mx-2" />
+                        <span asp-validation-for="Location.AddressLine1" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="Location.AddressLine2" class="mx-2"></label>
+                        <input asp-for="Location.AddressLine2" class="form-control mx-2" />
+                        <span asp-validation-for="Location.AddressLine2" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="Location.PostalCode" class="mx-2"></label>
+                        <input asp-for="Location.PostalCode" class="form-control mx-2" />
+                        <span asp-validation-for="Location.PostalCode" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Country.CombinedName" class="mx-2"></label>
+                        <label asp-for="Country.CombinedName" class="form-control mx-2">@Model.Country.CombinedName</label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="City.Name" class="mx-2"></label>
+                        <label asp-for="City.Name" class="form-control mx-2">@Model.City.Name</label>
+                    </div>
+                </div>
+            }
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>

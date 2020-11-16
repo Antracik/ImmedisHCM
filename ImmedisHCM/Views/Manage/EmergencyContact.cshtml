@@ -1,0 +1,108 @@
+﻿@model EmergencyContactViewModel
+
+@{
+    ViewData["Title"] = "Emergency Contact Information";
+    ViewData.SetActivePage(ManageNavPages.EmergencyContact);
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" model="Model.StatusMessage " />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="FirstName"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="LastName"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <div class="input-group">
+                    <input asp-for="Email" class="form-control" />
+                    <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                </div>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label asp-for="Location.AddressLine1"></label>
+                    <input asp-for="Location.AddressLine1" class="form-control" />
+                    <span asp-validation-for="Location.AddressLine1" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Location.AddressLine2"></label>
+                    <input asp-for="Location.AddressLine2" class="form-control" />
+                    <span asp-validation-for="Location.AddressLine2" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Location.PostalCode"></label>
+                    <input asp-for="Location.PostalCode" class="form-control" />
+                    <span asp-validation-for="Location.PostalCode" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="PhoneNumber"></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="HomePhoneNumber"></label>
+                    <input asp-for="HomePhoneNumber" class="form-control" />
+                    <span asp-validation-for="HomePhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="CountryId"></label>
+                    <select class="form-control js-get-cities" asp-for="CountryId" asp-items="@(new SelectList(Model.Countries,"Id","CombinedName", Model.CountryId))">
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="CityId" id="cities"></label>
+                    <select class="form-control js-set-cities" asp-for="CityId" asp-items="@(new SelectList(Model.Cities,"Id","Name", Model.CityId))">
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+
+        $(document).on('change', '.js-get-cities', function () {
+            var $selectList = $(this);
+            var $cityList = $('.js-set-cities');
+            var id = $selectList.val();
+            console.log(id);
+            $.ajax({
+                type: 'GET',
+                url: 'GetCitiesForCountry',
+                data: { Id: id },
+                success: function (result) {
+                    console.log(result)
+                    $cityList.empty();
+                    $.each(result, function (key, value) {
+                        $cityList.append($("<option></option>")
+                            .attr("value", value.id).text(value.name));
+                    });
+                },
+                error: function () {
+                    console.log("FRICK")
+                }
+            });
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial">
+}
