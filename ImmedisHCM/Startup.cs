@@ -43,6 +43,7 @@ namespace ImmedisHCM.Web
                     .AddScoped(typeof(IManageService), typeof(ManageService))
                     .AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork))
                     .AddScoped(typeof(IIdentitySeeder), typeof(IdentitySeeder))
+                    .AddScoped(typeof(INomenclatureService), typeof(NomenclatureService))
                     .AddScoped(typeof(IDatabaseSeeder), typeof(DatabaseSeeder));
 
             services.AddControllersWithViews();
