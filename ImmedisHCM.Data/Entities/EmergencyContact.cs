@@ -10,6 +10,7 @@ namespace ImmedisHCM.Data.Entities
         public virtual string PhoneNumber { get; set; }
         public virtual string HomePhoneNumber { get; set; }
         public virtual string Email { get; set; }
+        public virtual Employee Employee { get; set; }
         public virtual Location Location { get; set; }
     }
 }
