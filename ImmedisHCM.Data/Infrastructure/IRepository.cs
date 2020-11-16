@@ -22,8 +22,14 @@ namespace ImmedisHCM.Data.Infrastructure
                                      Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
                                      Func<IQueryable<TEntity>, IQueryable<TEntity>> fetch = null);
 
-        TEntity GetById(string id);
-        Task<TEntity> GetByIdAsync(string id);
+
+        TEntity GetSingle(Expression<Func<TEntity, bool>> filter,
+                                Func<IQueryable<TEntity>, IQueryable<TEntity>> fetch = null);
+
+        Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> filter,
+                                Func<IQueryable<TEntity>, IQueryable<TEntity>> fetch = null);
+        TEntity GetById(object id);
+        Task<TEntity> GetByIdAsync(object id);
 
         void Update(TEntity item);
         Task UpdateAsync(TEntity item);

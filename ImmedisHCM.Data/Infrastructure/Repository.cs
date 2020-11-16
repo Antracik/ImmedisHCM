@@ -1,12 +1,12 @@
 ﻿using NHibernate;
 using System.Collections.Generic;
 using System;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using NHibernate.Linq;
 using ImmedisHCM.Data.Entities;
 using System.Security.Cryptography.X509Certificates;
+using System.Linq;
 
 namespace ImmedisHCM.Data.Infrastructure
 {
@@ -84,24 +84,42 @@ namespace ImmedisHCM.Data.Infrastructure
             return _query.ToListAsync();
         }
 
-        public TEntity GetById(string id)
+        public TEntity GetSingle(Expression<Func<TEntity, bool>> filter, Func<IQueryable<TEntity>, 
+                                IQueryable<TEntity>> fetch = null)
+        {
+            if (fetch != null)
+                _query = fetch(_query);
+
+            return _query.FirstOrDefault(filter);
+        }
+
+        public Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> filter, 
+                            Func<IQueryable<TEntity>, IQueryable<TEntity>> fetch = null)
+        {
+            if (fetch != null)
+                _query = fetch(_query);
+
+            return _query.FirstOrDefaultAsync(filter);
+        }
+
+        public TEntity GetById(object id)
         {
             return _session.Get<TEntity>(id);
         }
 
-        public Task<TEntity> GetByIdAsync(string id)
+        public Task<TEntity> GetByIdAsync(object id)
         {
             return _session.GetAsync<TEntity>(id);
         }
 
         public void Update(TEntity item)
         {
-            _session.Update(item);
+            _session.Merge(item);
         }
 
         public Task UpdateAsync(TEntity item)
         {
-            return _session.UpdateAsync(item);
+            return _session.MergeAsync(item);
         }
 
         public void Delete(TEntity item)
@@ -113,5 +131,7 @@ namespace ImmedisHCM.Data.Infrastructure
         {
             return _session.DeleteAsync(item);
         }
+
+       
     }
 }
