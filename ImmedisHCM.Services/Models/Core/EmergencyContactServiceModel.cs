@@ -10,6 +10,7 @@ namespace ImmedisHCM.Services.Models.Core
         public string PhoneNumber { get; set; }
         public string HomePhoneNumber { get; set; }
         public string Email { get; set; }
+        public EmployeeServiceModel Employee { get; set; }
         public LocationServiceModel Location { get; set; }
     }
 }
