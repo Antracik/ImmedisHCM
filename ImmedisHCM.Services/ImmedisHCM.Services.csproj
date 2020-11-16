@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Core\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Core\SeedResources\Addresses.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
