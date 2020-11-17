@@ -2,7 +2,7 @@
 
 namespace ImmedisHCM.Data.Entities
 {
-    public class City
+    public class City : IBaseEntity
     {
         public virtual Guid Id  { get; set; }
         public virtual string Name { get; set; }

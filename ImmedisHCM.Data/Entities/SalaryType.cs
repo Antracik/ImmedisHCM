@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ImmedisHCM.Data.Entities
 {
-    public class SalaryType
+    public class SalaryType : IBaseEntity
     {
         public virtual int Id { get; set; }
         public virtual string Name { get; set; }

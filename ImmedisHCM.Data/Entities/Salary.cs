@@ -2,7 +2,7 @@
 
 namespace ImmedisHCM.Data.Entities
 {
-    public class Salary
+    public class Salary : IBaseEntity
     {
         public virtual Guid Id { get; set; }
         public virtual decimal Amount { get; set; }

@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace ImmedisHCM.Data.Infrastructure
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : IBaseEntity
     {
 
         private readonly ISession _session;

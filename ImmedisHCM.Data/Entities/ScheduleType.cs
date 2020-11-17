@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ImmedisHCM.Data.Entities
 {
-    public class ScheduleType
+    public class ScheduleType : IBaseEntity
     {
         public virtual Guid Id { get; set; }
         public virtual string Name { get; set; }

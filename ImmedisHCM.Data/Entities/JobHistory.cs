@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ImmedisHCM.Data.Entities
 {
-    public class JobHistory
+    public class JobHistory : IBaseEntity
     {
         public virtual Guid EmployeeId { get; set; }
         public virtual Employee Employee { get; set; }

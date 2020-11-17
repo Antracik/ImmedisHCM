@@ -2,7 +2,7 @@
 
 namespace ImmedisHCM.Data.Entities
 {
-    public class AttendanceHistory
+    public class AttendanceHistory : IBaseEntity
     {
         public virtual Guid Id { get; set; }
         public virtual Employee Employee { get; set; }

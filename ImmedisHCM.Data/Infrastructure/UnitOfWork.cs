@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using ImmedisHCM.Data.Entities;
+using NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -21,7 +22,7 @@ namespace ImmedisHCM.Data.Infrastructure
             _repositories = new Dictionary<Type, object>();
         }
 
-        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class
+        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : IBaseEntity
         {
             if (_repositories.TryGetValue(typeof(TEntity), out object repo))
                 return repo as IRepository<TEntity>;

@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using ImmedisHCM.Data.Entities;
+using NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ImmedisHCM.Data.Infrastructure
 {
-    public interface IRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity> where TEntity : IBaseEntity
     {
         IQueryable<TEntity> Entity { get; }
         void AddRange(IEnumerable<TEntity> rangeList);

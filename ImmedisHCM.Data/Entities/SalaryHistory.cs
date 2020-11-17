@@ -4,7 +4,7 @@ using System;
 
 namespace ImmedisHCM.Data.Entities
 {
-    public class SalaryHistory
+    public class SalaryHistory : IBaseEntity
     {
         public virtual DateTime DateChanged { get; set; }
         public virtual Guid SalaryId { get; set; }

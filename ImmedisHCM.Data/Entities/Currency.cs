@@ -2,7 +2,7 @@
 
 namespace ImmedisHCM.Data.Entities
 {
-    public class Currency
+    public class Currency : IBaseEntity
     {
         public virtual int Id { get; set; }
         public virtual string Name { get; set; }

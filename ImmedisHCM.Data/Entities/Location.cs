@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ImmedisHCM.Data.Entities
 {
-    public class Location
+    public class Location : IBaseEntity
     {
         public virtual Guid Id { get; set; }
         public virtual string AddressLine1 { get; set; }

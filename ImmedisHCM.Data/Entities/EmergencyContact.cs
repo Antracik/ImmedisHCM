@@ -2,7 +2,7 @@
 
 namespace ImmedisHCM.Data.Entities
 {
-    public class EmergencyContact
+    public class EmergencyContact : IBaseEntity
     {
         public virtual Guid Id { get; set; }
         public virtual string FirstName { get; set; }

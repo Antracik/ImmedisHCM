@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ImmedisHCM.Data.Entities
 {
-    public class Company
+    public class Company : IBaseEntity
     {
         public virtual Guid Id { get; set; }
         public virtual string Name { get; set; }
