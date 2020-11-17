@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ImmedisHCM.Services.Identity
 {
-    public interface IManageService
+    public interface IAccountManageService
     {
         Task<IdentityResult> ChangePasswordAsync(UserServiceModel user, string oldPassword, string newPassword);
         Task<IdentityResult> SetUserEmailAsync(UserServiceModel user, string email);

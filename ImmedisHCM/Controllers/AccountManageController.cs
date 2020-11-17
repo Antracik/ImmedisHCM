@@ -16,10 +16,10 @@ using Microsoft.Extensions.Logging;
 namespace ImmedisHCM.Web.Controllers
 {
     [Authorize]
-    [Route("Account/[controller]/[action]")]
-    public class ManageController : Controller
+    [Route("Account/Manage/[action]")]
+    public class AccountManageController : Controller
     {
-        private readonly IManageService _manageService;
+        private readonly IAccountManageService _manageService;
         private readonly IAccountService _accountService;
         private readonly INomenclatureService _nomenclatureService;
         private readonly IEmailSender _emailSender;
@@ -27,10 +27,10 @@ namespace ImmedisHCM.Web.Controllers
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
 
-        public ManageController(IEmailSender emailSender,
-                                ILogger<ManageController> logger,
+        public AccountManageController(IEmailSender emailSender,
+                                ILogger<AccountManageController> logger,
                                 UrlEncoder urlEncoder,
-                                IManageService manageService,
+                                IAccountManageService manageService,
                                 IAccountService accountService,
                                 IMapper mapper,
                                 INomenclatureService nomenclatureService)

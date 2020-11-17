@@ -12,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace ImmedisHCM.Services.Identity
 {
-    public class ManageService : IManageService
+    public class AccountManageService : IAccountManageService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<WebUser> _userManager;
         private readonly IMapper _mapper;
 
-        public ManageService(IMapper mapper,
+        public AccountManageService(IMapper mapper,
                              IUnitOfWork unitOfWork,
                              UserManager<WebUser> userManager)
         {

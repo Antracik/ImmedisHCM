@@ -4,9 +4,9 @@ using ImmedisHCM.Services.Models.Identity;
 
 namespace ImmedisHCM.Web.Models.Mappings
 {
-    public class ManageMaping : Profile
+    public class AccountManageMaping : Profile
     {
-        public ManageMaping()
+        public AccountManageMaping()
         {
             CreateMap<UserServiceModel, ProfileViewModel>();
             CreateMap<EmployeeServiceModel, ProfileViewModel>()

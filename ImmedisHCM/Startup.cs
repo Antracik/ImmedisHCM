@@ -40,7 +40,8 @@ namespace ImmedisHCM.Web
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>))
                     .AddScoped(typeof(IAccountService), typeof(AccountService))
-                    .AddScoped(typeof(IManageService), typeof(ManageService))
+                    .AddScoped(typeof(IAccountManageService), typeof(AccountManageService))
+                    .AddScoped(typeof(IManagerService), typeof(ManagerService))
                     .AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork))
                     .AddScoped(typeof(IIdentitySeeder), typeof(IdentitySeeder))
                     .AddScoped(typeof(INomenclatureService), typeof(NomenclatureService))
