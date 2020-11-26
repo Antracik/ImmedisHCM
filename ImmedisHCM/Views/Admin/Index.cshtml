@@ -1,0 +1,61 @@
+﻿@model string
+@{ 
+    ViewData["Title"] = "Admin panel";
+}
+
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+
+        <partial name="_StatusMessage" model="Model" />
+        <h3>
+            Admin Panel
+        </h3>
+        <div class="row">
+            <hr />
+            <div class="col-12">
+                <h5>Employee</h5>
+                <div class="row">
+                    <a asp-action="Employees" class="btn btn-primary col-5 m-2">List employees</a>
+                    <a asp-action="CreateEmployee" class="btn btn-primary col-5 m-2">Employee registration form</a>
+                </div>
+            </div>
+            <div class="col-12">
+                <hr />
+                <h5>Departments</h5>
+                <div class="row">
+                    <a asp-action="Companies" class="btn btn-primary col-5 m-2">List Companies</a>
+                    <a asp-action="CreateCompany" class="btn btn-primary col-5 m-2">Add new Company</a>
+                    <a asp-action="Departments" class="btn btn-primary col-5 m-2">List Departments</a>
+                    <a asp-action="CreateDepartment" class="btn btn-primary col-5 m-2">Add new Department</a>
+                </div>
+            <hr />
+            </div>
+            <div class="col-12">
+                <h5>Jobs</h5>
+                <div class="row">
+                    <a asp-action="Jobs" class="btn btn-primary col-5 m-2">List Jobs</a>
+                    <a asp-action="CreateJob" class="btn btn-primary col-5 m-2">Add new Job</a>
+                    <a asp-action="Schedules" class="btn btn-primary col-5 m-2">List Schedules</a>
+                    <a asp-action="CreateSchedule" class="btn btn-primary col-5 m-2">Add new Schedule</a>
+                </div>
+                <hr />
+            </div>
+            <div class="col-12">
+                <h5>Nomenclature</h5>
+                <div class="row">
+                    <a asp-action="Countries" class="btn btn-primary col-5 m-2">List Countries</a>
+                    <a asp-action="CreateCountry" class="btn btn-primary col-5 m-2">Add new Country</a>
+                    <a asp-action="Cities" class="btn btn-primary col-5 m-2">List Cities</a>
+                    <a asp-action="CreateCity" class="btn btn-primary col-5 m-2">Add new City</a>
+                    <a asp-action="Currencies" class="btn btn-primary col-5 m-2">List Currencies</a>
+                    <a asp-action="CreateCurrency" class="btn btn-primary col-5 m-2">Add new Currency</a>
+                    <a asp-action="SalaryTypes" class="btn btn-primary col-5 m-2">List Salary Types</a>
+                    <a asp-action="CreateSalaryType" class="btn btn-primary col-5 m-2">Add new Salary Type</a>
+                </div>
+                <hr />
+            </div>
+        </div>
+    </div>
+    <div class="col-3"></div>
+</div>

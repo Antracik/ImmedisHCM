@@ -60,12 +60,15 @@ namespace ImmedisHCM.Data.Infrastructure
 
             if (fetch != null)
                 _query = fetch(_query);
-            
+
+            var items = _query;
+
+            RefreshQuery();
 
             if (orderBy != null)
-                return orderBy(_query).ToList();
+                return orderBy(items).ToList();
 
-            return _query.ToList();
+            return items.ToList();
         }
 
         public Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null,
@@ -78,10 +81,14 @@ namespace ImmedisHCM.Data.Infrastructure
             if (fetch != null)
                 _query = fetch(_query);
 
-            if (orderBy != null)
-                return orderBy(_query).ToListAsync();
+            var items = _query;
 
-            return _query.ToListAsync();
+            RefreshQuery();
+
+            if (orderBy != null)
+                return orderBy(items).ToListAsync();
+
+            return items.ToListAsync();
         }
 
         public TEntity GetSingle(Expression<Func<TEntity, bool>> filter, Func<IQueryable<TEntity>, 
@@ -90,7 +97,11 @@ namespace ImmedisHCM.Data.Infrastructure
             if (fetch != null)
                 _query = fetch(_query);
 
-            return _query.FirstOrDefault(filter);
+            var items = _query;
+
+            RefreshQuery();
+
+            return items.FirstOrDefault(filter);
         }
 
         public Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> filter, 
@@ -99,7 +110,11 @@ namespace ImmedisHCM.Data.Infrastructure
             if (fetch != null)
                 _query = fetch(_query);
 
-            return _query.FirstOrDefaultAsync(filter);
+            var items = _query;
+
+            RefreshQuery();
+
+            return items.FirstOrDefaultAsync(filter);
         }
 
         public TEntity GetById(object id)
@@ -132,6 +147,10 @@ namespace ImmedisHCM.Data.Infrastructure
             return _session.DeleteAsync(item);
         }
 
-       
+        private void RefreshQuery()
+        {
+            _query = _session.Query<TEntity>();
+        }
+
     }
 }

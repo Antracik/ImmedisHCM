@@ -22,6 +22,10 @@ namespace ImmedisHCM.Data.Entities.Mappings
                 .Not.Nullable()
                 .ReadOnly();
 
+            Map(x => x.SalaryHistoryId)
+                .Column("salary_history_id")
+                .Not.Nullable();
+
             Map(x => x.FromDate)
                 .Column("from_date")
                 .Not.Nullable();

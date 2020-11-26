@@ -18,11 +18,16 @@ namespace ImmedisHCM.Web.Models
         
         [Required]
         [Display(Name = "Phone Number")]
+        [DataType(DataType.PhoneNumber)]
+        [Phone]
         public string PhoneNumber { get; set; }
 
         [Display(Name = "Home Phone Number")]
+        [DataType(DataType.PhoneNumber)]
+        [Phone]
         public string HomePhoneNumber { get; set; }
 
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required]

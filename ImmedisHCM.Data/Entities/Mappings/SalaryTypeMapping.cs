@@ -16,7 +16,8 @@ namespace ImmedisHCM.Data.Entities.Mappings
                 .Column("name")
                 .Not.Nullable();
 
-            HasMany(x => x.Salaries);
+            HasMany(x => x.Salaries)
+                .Fetch.Select();
         }
     }
 }

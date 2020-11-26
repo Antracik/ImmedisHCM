@@ -25,7 +25,7 @@ namespace ImmedisHCM.Data.Entities.Mappings
                 .Not.Nullable();
 
             HasOne(x => x.Employee)
-                .ForeignKey("salary_id");
+                .PropertyRef(x => x.Salary);
                 
 
         }

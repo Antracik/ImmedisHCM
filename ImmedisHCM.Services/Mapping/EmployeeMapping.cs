@@ -9,8 +9,8 @@ namespace ImmedisHCM.Services.Mapping
         public EmployeeMapping()
         {
             CreateMap<Employee, EmployeeServiceModel>()
-                .ForPath(x => x.Manager.Manager, opts => opts.Ignore())
-                .ForPath(x => x.Department.Manager, opts => opts.Ignore())
+                //.ForPath(x => x.Manager.Manager, opts => opts.Ignore())
+                //.ForPath(x => x.Department.Manager, opts => opts.Ignore())
                 .ReverseMap();
         }
     }

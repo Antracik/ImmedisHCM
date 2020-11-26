@@ -1,0 +1,77 @@
+﻿@model List<JobAdminViewModel>
+
+@{
+    ViewData["Title"] = "Jobs";
+}
+
+<div class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <h1 class="pt-5 pb-2 mb-3 ml-3">Jobs in system</h1>
+
+        <table class="table table-hover table-responsive js-table">
+            <thead>
+                <tr>
+                    <th>
+                        <label class="text-nowrap" asp-for="@Model.FirstOrDefault().Name"></label>
+                    </th>
+                    <th>
+                        <label class="text-nowrap" asp-for="@Model.FirstOrDefault().ScheduleName"></label>
+                    </th>
+                    <th>
+                        <label class="text-nowrap" asp-for="@Model.FirstOrDefault().MinimalSalary"></label>
+                    </th>
+                    <th>
+                        <label class="text-nowrap" asp-for="@Model.FirstOrDefault().MaximumSalary"></label>
+                    </th>
+                    <th>
+                        <label class="text-nowrap" asp-for="@Model.FirstOrDefault().StartTime"></label>
+                    </th>
+                    <th>
+                        <label class="text-nowrap" asp-for="@Model.FirstOrDefault().Hours"></label>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.ScheduleName
+                        </td>
+                        <td>
+                            @item.MinimalSalary
+                        </td>
+                        <td>
+                            @item.MaximumSalary
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => item.StartTime)
+                        </td>
+                        <td>
+                            @item.Hours
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-1"></div>
+
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('.js-table').DataTable({
+                paging: false,
+                searching: false,
+                info: false,
+            }
+            );
+        });
+    </script>
+}

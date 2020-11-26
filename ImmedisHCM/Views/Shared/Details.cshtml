@@ -1,0 +1,173 @@
+﻿@model EmployeeDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+
+}
+
+<h1>Employee Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EmployeeName)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.EmployeeName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.HiredDate)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.HiredDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.JobName)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.JobName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ScheduleName)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.ScheduleName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ScheduleHours)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.ScheduleHours) Hours
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ScheduleStartTime)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.ScheduleStartTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SalaryTypeName)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.SalaryTypeName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DepartmentName)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.DepartmentName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.CompanyName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CityCountry)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.CityCountry)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Address.AddressLine1)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.Address.AddressLine1)
+        </dd>
+        @if (!string.IsNullOrEmpty(Model.Address.AddressLine2))
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(x => x.Address.AddressLine2)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(x => x.Address.AddressLine2)
+            </dd>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(x => x.Address.PostalCode)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(x => x.Address.PostalCode)
+        </dd>
+    </dl>
+    <hr />
+    @if (!string.IsNullOrEmpty(Model.EmergencyName))
+    {
+    <h2>Emergency Contact</h2>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EmergencyName)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.EmergencyName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EmergencyPhoneNumber)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(model => model.EmergencyPhoneNumber)
+        </dd>
+        @if (!string.IsNullOrEmpty(Model.EmergencyHomePhoneNumber))
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.EmergencyHomePhoneNumber)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => model.EmergencyHomePhoneNumber)
+            </dd>
+        }
+        @if (!string.IsNullOrEmpty(Model.EmergencyEmail))
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.EmergencyEmail)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => model.EmergencyEmail)
+            </dd>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(x => x.EmergencyAddress.AddressLine1)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(x => x.EmergencyAddress.AddressLine1)
+        </dd>
+        @if (!string.IsNullOrEmpty(Model.EmergencyAddress.AddressLine2))
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(x => x.EmergencyAddress.AddressLine2)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(x => x.EmergencyAddress.AddressLine2)
+            </dd>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(x => x.EmergencyAddress.PostalCode)
+        </dt>
+        <dd class="col-sm-4">
+            @Html.DisplayFor(x => x.EmergencyAddress.PostalCode)
+        </dd>
+
+    </dl>
+    }
+</div>

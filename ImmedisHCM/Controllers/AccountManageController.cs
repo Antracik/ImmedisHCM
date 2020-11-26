@@ -19,17 +19,15 @@ namespace ImmedisHCM.Web.Controllers
     [Route("Account/Manage/[action]")]
     public class AccountManageController : Controller
     {
-        private readonly IAccountManageService _manageService;
+        private readonly IAccountManageService _accountManageService;
         private readonly IAccountService _accountService;
         private readonly INomenclatureService _nomenclatureService;
         private readonly IEmailSender _emailSender;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        private readonly UrlEncoder _urlEncoder;
 
         public AccountManageController(IEmailSender emailSender,
                                 ILogger<AccountManageController> logger,
-                                UrlEncoder urlEncoder,
                                 IAccountManageService manageService,
                                 IAccountService accountService,
                                 IMapper mapper,
@@ -37,8 +35,7 @@ namespace ImmedisHCM.Web.Controllers
         {
             _emailSender = emailSender;
             _logger = logger;
-            _urlEncoder = urlEncoder;
-            _manageService = manageService;
+            _accountManageService = manageService;
             _accountService = accountService;
             _mapper = mapper;
             _nomenclatureService = nomenclatureService;
@@ -56,7 +53,7 @@ namespace ImmedisHCM.Web.Controllers
                 throw new ApplicationException($"Unable to load user with email '{User.Identity.Name}'.");
             }
 
-            var employee = await _manageService.GetEmployeeByEmailAsync(user.Email);
+            var employee = await _accountManageService.GetEmployeeByEmailAsync(user.Email);
 
             var model = _mapper.Map<ProfileViewModel>(user);
 
@@ -74,6 +71,10 @@ namespace ImmedisHCM.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                model.Username = model.Email;
+                var location = await _accountManageService.GetEmployeeLocation(model.Email);
+                model.City = _mapper.Map<CityViewModel>(location.City);
+                model.Country = _mapper.Map<CountryViewModel>(location.City.Country);
                 return View(model);
             }
 
@@ -85,7 +86,7 @@ namespace ImmedisHCM.Web.Controllers
             var email = user.Email;
             if (model.Email != email)
             {
-                result = await _manageService.SetUserEmailAsync(user, model.Email);
+                result = await _accountManageService.SetUserEmailAsync(user, model.Email);
 
                 if (!result.Succeeded)
                     throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
@@ -94,16 +95,16 @@ namespace ImmedisHCM.Web.Controllers
             var phoneNumber = user.PhoneNumber;
             if (model.PhoneNumber != phoneNumber)
             {
-                result = await _manageService.SetUserPhoneNumberAsync(user, model.PhoneNumber);
+                result = await _accountManageService.SetUserPhoneNumberAsync(user, model.PhoneNumber);
                 if (!result.Succeeded)
                     throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
             }
 
             if (!User.IsInRole("Admin"))
             {
-                var updateModel = await _manageService.GetEmployeeByEmailAsync(User.Identity.Name);
+                var updateModel = await _accountManageService.GetEmployeeByEmailAsync(User.Identity.Name);
                 updateModel = _mapper.Map(model, updateModel);
-                await _manageService.UpdateEmployee(updateModel);
+                await _accountManageService.UpdateEmployee(updateModel);
             }
 
             StatusMessage = "Your profile has been updated";
@@ -113,20 +114,29 @@ namespace ImmedisHCM.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> EmergencyContact()
         {
-            var contact = await _manageService.GetEmergencyContactAsync(User.Identity.Name);
+            var contact = await _accountManageService.GetEmergencyContactAsync(User.Identity.Name);
+
+            var countries = _mapper.Map<List<CountryViewModel>>(await _nomenclatureService.GetCountries());
+            var cities = _mapper.Map<List<CityViewModel>>(await _nomenclatureService.GetCitiesByCountryId(countries[0].Id));
 
             if (contact == null)
             {
-                //handle nulls later
+                contact = new EmergencyContactServiceModel();
             }
 
-            //refactor to be prettier at some point
             var model = _mapper.Map<EmergencyContactViewModel>(contact);
-            model.Countries = _mapper.Map<List<CountryViewModel>>(await _nomenclatureService.GetCountries());
-            model.Cities = _mapper.Map<List<CityViewModel>>(await _nomenclatureService.GetCitiesByCountryId(contact.Location.City.Country.Id));
-            model.CityId = contact.Location.City.Id;
-            model.CountryId = contact.Location.City.Country.Id;
+            model.Countries = countries;
 
+            if (contact.Location == null)
+            {
+                model.Cities = cities;
+            }
+            else
+            {
+                model.Cities = _mapper.Map<List<CityViewModel>>(await _nomenclatureService.GetCitiesByCountryId(contact.Location.City.Country.Id));
+                model.CityId = contact.Location.City.Id;
+                model.CountryId = contact.Location.City.Country.Id;
+            }
             model.StatusMessage = StatusMessage;
 
             return View(model);
@@ -135,20 +145,30 @@ namespace ImmedisHCM.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> EmergencyContact(EmergencyContactViewModel model)
         {
-            var contact = await _manageService.GetEmergencyContactAsync(User.Identity.Name);
-
-            if (contact == null)
+            if (!ModelState.IsValid)
             {
-                //handle nulls later
+                model.Countries = _mapper.Map<List<CountryViewModel>>(await _nomenclatureService.GetCountries());
+                model.Cities = _mapper.Map<List<CityViewModel>>(await _nomenclatureService.GetCitiesByCountryId(model.CountryId));
+                return View(model);
             }
+
+            var contact = await _accountManageService.GetEmergencyContactAsync(User.Identity.Name);
 
             var city = await _nomenclatureService.GetCity(model.CityId);
 
-            var updateModel = _mapper.Map(model, contact);
+            var serviceModel = _mapper.Map(model, contact);
 
-            updateModel.Location.City = city;
+            serviceModel.Location.City = city;
 
-            await _manageService.UpdateEmergencyContact(updateModel);
+            if (contact != null)
+            {
+                await _accountManageService.UpdateEmergencyContact(serviceModel);
+            }
+            else
+            {
+                serviceModel.Employee = await _accountManageService.GetEmployeeByEmailAsync(User.Identity.Name);
+                await _accountManageService.CreateEmergencyContact(serviceModel);
+            }
 
             StatusMessage = "Your emergency contact has been updated!";
 
@@ -184,7 +204,7 @@ namespace ImmedisHCM.Web.Controllers
                 throw new ApplicationException($"Unable to load user with email '{User.Identity.Name}'.");
             }
 
-            var changePasswordResult = await _manageService.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            var changePasswordResult = await _accountManageService.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
                 AddErrors(changePasswordResult);
@@ -196,15 +216,6 @@ namespace ImmedisHCM.Web.Controllers
             StatusMessage = "Your password has been changed.";
 
             return RedirectToAction(nameof(ChangePassword));
-        }
-
-        public async Task<IActionResult> GetCitiesForCountry(string Id)
-        {
-            var cities = await _nomenclatureService.GetCitiesByCountryId(new Guid(Id));
-
-            var model = _mapper.Map<List<CityViewModel>>(cities);
-
-            return new JsonResult(model);
         }
 
         #region Helpers

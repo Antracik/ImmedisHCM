@@ -9,7 +9,7 @@ namespace ImmedisHCM.Services.Models.Core
         public string Name { get; set; }
         public LocationServiceModel Location { get; set; }
         public EmployeeServiceModel Manager { get; set; }
-        public CompanyServiceMolde Company { get; set; }
+        public CompanyServiceModel Company { get; set; }
         public IList<EmployeeServiceModel> Employees { get; set; }
     }
 }

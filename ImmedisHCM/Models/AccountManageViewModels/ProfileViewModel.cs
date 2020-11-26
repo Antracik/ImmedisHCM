@@ -11,6 +11,7 @@ namespace ImmedisHCM.Web.Models
         public string Email { get; set; }
 
         [Phone]
+        [DataType(DataType.PhoneNumber)]
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
 

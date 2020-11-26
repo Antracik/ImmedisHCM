@@ -1,0 +1,87 @@
+﻿@model List<DepartmentsAdminViewModel>
+
+@{ 
+    ViewData["Title"] = "Departments";
+}
+
+<h1 class="pt-5 pb-2 mb-3 ml-3">Departments in system</h1>
+<table class="table table-sm table-hover table-responsive js-table">
+    <thead>
+        <tr>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().Name"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().CompanyName"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().ManagerName"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().EmployeeCount"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().Address1"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().Address2"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().PostalCode"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().City"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().Country"></label>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.CompanyName
+                </td>
+                <td>
+                    @item.ManagerName
+                </td>
+                <td>
+                    @item.EmployeeCount
+                </td>
+                <td>
+                    @item.Address1
+                </td>
+                <td>
+                    @item.Address2
+                </td>
+                <td>
+                    @item.PostalCode
+                </td>
+                <td>
+                    @item.City
+                </td>
+                <td>
+                    @item.Country
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('.js-table').DataTable({
+                paging: false,
+                searching: false,
+                info: false,
+            }
+            );
+        });
+    </script>
+}

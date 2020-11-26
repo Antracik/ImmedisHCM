@@ -1,0 +1,126 @@
+﻿@model List<EmployeesAdminViewModel>
+
+<h1 class="pt-5 pb-2 mb-3 ml-3">Employees in system</h1>
+
+<table class="table table-sm table-hover table-responsive js-table">
+    <thead>
+        <tr>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().Name"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().Email"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().PhoneNumber"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().HiredDate"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().LeftDate"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().JobName"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().ScheduleName"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().Salary"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().Currency"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.FirstOrDefault().SalaryTypeName"></label>
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.Email
+                </td>
+                <td>
+                    @item.PhoneNumber
+                </td>
+                <td>
+                    @Html.DisplayFor(x => item.HiredDate)
+                </td>
+                @if (item.LeftDate != new DateTime(1,1,1))
+                {<td>
+                    @Html.DisplayFor(x => item.LeftDate)
+                </td>
+                }
+                else
+                {
+                    <td>
+
+                    </td>
+                }
+                <td>
+                    @item.JobName
+                </td>
+                <td>
+                    @item.ScheduleName
+                </td>
+                <td>
+                    @item.Salary
+                </td>
+                <td>
+                    @item.Currency
+                </td>
+                <td>
+                    @item.SalaryTypeName
+                </td>
+                <td>
+                    <div class="dropdown show">
+                        <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Options
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" asp-route-email="@item.Email" asp-action="Details">Details</a>
+                            <a class="dropdown-item" asp-route-email="@item.Email" asp-action="ChangeSalary">Change Salary</a>
+                            <a class="dropdown-item" asp-route-email="@item.Email" asp-action="ChangeJob">Change Job</a>
+                            <a class="dropdown-item" asp-route-email="@item.Email" asp-action="DeleteEmployee">"Delete" employee</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('.js-table').DataTable({
+                paging: false,
+                info: false,
+                columns:
+                    [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        { orderable: false, width: "8%" }
+                    ]
+            }
+            );
+        });
+    </script>
+}

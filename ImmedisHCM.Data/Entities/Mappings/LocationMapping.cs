@@ -27,7 +27,7 @@ namespace ImmedisHCM.Data.Entities.Mappings
             References(x => x.City)
                 .Column("city_id")
                 .Fetch.Join()
-                .Cascade.All()
+                .Cascade.Merge()
                 .Nullable();
 
         }

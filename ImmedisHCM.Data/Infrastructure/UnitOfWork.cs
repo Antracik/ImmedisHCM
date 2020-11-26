@@ -50,11 +50,12 @@ namespace ImmedisHCM.Data.Infrastructure
 
         }
 
-        public Task CommitAsync()
+        public async Task CommitAsync()
         {
             if (!_transaction.IsActive)
                 throw new InvalidOperationException("Cannot commit to inactive transaction.");
-            return _transaction.CommitAsync();
+            await _transaction.CommitAsync();
+            Dispose();
         }
 
         public void Rollback()

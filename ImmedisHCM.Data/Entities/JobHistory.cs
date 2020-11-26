@@ -11,6 +11,7 @@ namespace ImmedisHCM.Data.Entities
         public virtual Employee Employee { get; set; }
         public virtual Job Job { get; set; }
         public virtual SalaryHistory SalaryHistory { get; set; }
+        public virtual Guid SalaryHistoryId { get; set; }
         public virtual DateTime DateChanged { get; set; }
         public virtual DateTime FromDate { get; set; }
         public virtual DateTime ToDate { get; set; }

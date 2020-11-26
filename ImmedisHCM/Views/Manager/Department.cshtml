@@ -1,0 +1,152 @@
+﻿@model DepartmentDetailsViewModel
+
+@{
+    ViewData["Title"] = "Department";
+}
+
+<h1>Department</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DepartmentName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DepartmentName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Company)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Company)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.City)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ManagerName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ManagerName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ManagerEmail)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ManagerEmail)
+        </dd>
+    </dl>
+</div>
+
+<hr />
+
+<h3 class="pt-5 pb-2 mb-3 ml-3">Employees in Department</h3>
+
+<table class="table table-sm table-hover table-responsive js-table ml-3">
+    <thead>
+        <tr>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.Employees.FirstOrDefault().Name"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.Employees.FirstOrDefault().Email"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.Employees.FirstOrDefault().PhoneNumber"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.Employees.FirstOrDefault().HiredDate"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.Employees.FirstOrDefault().JobName"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.Employees.FirstOrDefault().ScheduleName"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.Employees.FirstOrDefault().Salary"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.Employees.FirstOrDefault().Currency"></label>
+            </th>
+            <th>
+                <label class="text-nowrap" asp-for="@Model.Employees.FirstOrDefault().SalaryTypeName"></label>
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Employees)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.Email
+                </td>
+                <td>
+                    @item.PhoneNumber
+                </td>
+                <td>
+                    @Html.DisplayFor(x => item.HiredDate)
+                </td>
+                <td>
+                    @item.JobName
+                </td>
+                <td>
+                    @item.ScheduleName
+                </td>
+                <td>
+                    @item.Salary
+                </td>
+                <td>
+                    @item.Currency
+                </td>
+                <td>
+                    @item.SalaryTypeName
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-route-email="@item.Email" asp-action="Details">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('.js-table').DataTable({
+                paging: false,
+                searching: false,
+                info: false,
+                columns:
+                    [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        { orderable: false, width: "8%" }
+                    ]
+            }
+            );
+        });
+    </script>
+}

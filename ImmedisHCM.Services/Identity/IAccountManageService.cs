@@ -15,5 +15,7 @@ namespace ImmedisHCM.Services.Identity
         Task<bool> UpdateEmergencyContact(EmergencyContactServiceModel emergencyContact);
         Task<EmployeeServiceModel> GetEmployeeByEmailAsync(string email);
         Task<EmergencyContactServiceModel> GetEmergencyContactAsync(string employeeEmil);
+        Task<bool> CreateEmergencyContact(EmergencyContactServiceModel emergencyContact);
+        Task<LocationServiceModel> GetEmployeeLocation(string email);
     }
 }

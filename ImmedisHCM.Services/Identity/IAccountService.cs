@@ -1,5 +1,6 @@
 ﻿using ImmedisHCM.Services.Models.Identity;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -14,6 +15,9 @@ namespace ImmedisHCM.Services.Identity
         string GetUserId(ClaimsPrincipal principal);
         Task<SignInResult> PasswordSignInAsync(string userName, string password, bool isPersistent);
         Task PasswordSignInAsync(UserServiceModel user, string password, bool isPersistent);
+        Guid? GetEmployeeId(string email);
+        Task<bool> CreateAttendanceHistory(Guid employeeId);
+        Task<bool> UpdateAttendanceHistory(Guid employeeId);
         Task SignOutAsync();
         
     }

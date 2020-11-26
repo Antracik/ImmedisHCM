@@ -1,0 +1,57 @@
+﻿@model List<CompanyAdminViewModel>
+
+
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <h1 class="pt-5 pb-2 mb-3 ml-3">Companies in system</h1>
+
+        <table class="table table-hover table-responsive js-table">
+            <thead>
+                <tr>
+                    <th>
+                        <label class="text-nowrap" asp-for="@Model.FirstOrDefault().Name"></label>
+                    </th>
+                    <th>
+                        <label class="text-nowrap" asp-for="@Model.FirstOrDefault().LegalName"></label>
+                    </th>
+                    <th>
+                        <label class="text-nowrap" asp-for="@Model.FirstOrDefault().DepartmentCount"></label>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.LegalName
+                        </td>
+                        <td>
+                            @item.DepartmentCount
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-3"></div>
+
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('.js-table').DataTable({
+                paging: false,
+                searching: false,
+                info: false,
+            }
+            );
+        });
+    </script>
+}

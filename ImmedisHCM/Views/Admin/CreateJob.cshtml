@@ -1,0 +1,43 @@
+﻿@model ImmedisHCM.Web.Models.CreateJobViewModel
+
+@{
+    ViewData["Title"] = "Create Job";
+}
+
+<h1>Create Job</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateJob">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinimalSalary" class="control-label"></label>
+                <input asp-for="MinimalSalary" class="form-control" />
+                <span asp-validation-for="MinimalSalary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaximumSalary" class="control-label"></label>
+                <input asp-for="MaximumSalary" class="form-control" />
+                <span asp-validation-for="MaximumSalary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScheduleId"></label>
+                <select class="form-control" asp-for="ScheduleId" asp-items="@(new SelectList(Model.Schedules,"Id","Name"))">
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

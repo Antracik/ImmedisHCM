@@ -1,0 +1,46 @@
+﻿@model UpdateEmployeeSalaryViewModel
+
+@{
+    ViewData["Title"] = "Change Salary";
+}
+
+<partial name="_StatusMessage" model="@Model.StatusMessage" />
+
+<h1>Change Salary</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ChangeSalary">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(x => x.EmployeeEmail)
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmployeeName" class="control-label"></label>
+                <label asp-for="EmployeeName" class="form-control"> @Model.EmployeeName</label>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="CurrencyId" id="cities"></label>
+                    <select class="form-control" asp-for="CurrencyId" asp-items="@(new SelectList(Model.Currencies,"Id","Name", Model.CurrencyId))">
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="SalaryTypeId" id="cities"></label>
+                    <select class="form-control" asp-for="SalaryTypeId" asp-items="@(new SelectList(Model.SalaryTypes,"Id","Name", Model.SalaryTypeId))">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

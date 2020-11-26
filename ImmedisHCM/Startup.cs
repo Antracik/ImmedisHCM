@@ -31,9 +31,9 @@ namespace ImmedisHCM.Web
 
             services.ConfigureApplicationCookie(options =>
             {
-                options.LoginPath = $"/Identity/Account/Login";
-                options.LogoutPath = $"/Identity/Account/Logout";
-                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+                options.LoginPath = $"/Account/Login";
+                options.LogoutPath = $"/Account/Logout";
+                options.AccessDeniedPath = $"/Account/AccessDenied";
             });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -42,6 +42,7 @@ namespace ImmedisHCM.Web
                     .AddScoped(typeof(IAccountService), typeof(AccountService))
                     .AddScoped(typeof(IAccountManageService), typeof(AccountManageService))
                     .AddScoped(typeof(IManagerService), typeof(ManagerService))
+                    .AddScoped(typeof(IAdminService), typeof(AdminService))
                     .AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork))
                     .AddScoped(typeof(IIdentitySeeder), typeof(IdentitySeeder))
                     .AddScoped(typeof(INomenclatureService), typeof(NomenclatureService))

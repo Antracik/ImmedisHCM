@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using ImmedisHCM.Data.Entities;
 using ImmedisHCM.Data.Identity.Entities;
 using ImmedisHCM.Data.Infrastructure;
 using ImmedisHCM.Services.Models.Identity;
 using Microsoft.AspNetCore.Identity;
+using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -73,11 +76,77 @@ namespace ImmedisHCM.Services.Identity
             return _userManager.GetUserId(principal);
         }
 
+        public Guid? GetEmployeeId(string email)
+        {
+            return _unitOfWork.GetRepository<Employee>()
+                              .Entity
+                              .FirstOrDefault(x => x.Email == email)?.Id ??  null;
+        }
+
+        public async Task<bool> CreateAttendanceHistory(Guid employeeId)
+        {
+            try
+            {
+                _unitOfWork.BeginTransaction();
+
+                var employeeRepo = _unitOfWork.GetRepository<Employee>();
+                var attendanceRepo = _unitOfWork.GetRepository<AttendanceHistory>();
+
+                var attendance = (await attendanceRepo.GetAsync(x => x.Employee.Id == employeeId,
+                                                                 x => x.OrderBy(x => x.Date))).LastOrDefault();
+
+                if (attendance != null && attendance.CheckedOut == null)
+                    return false;
+
+                var createAttendance = new AttendanceHistory
+                {
+                    CheckedIn = DateTime.UtcNow,
+                    Date = DateTime.UtcNow,
+                    Employee = await employeeRepo.GetByIdAsync(employeeId)
+                };
+
+                await attendanceRepo.AddItemAsync(createAttendance);
+
+                await _unitOfWork.CommitAsync();
+                return true;
+            }
+            catch
+            {
+                await _unitOfWork.RollbackAsync();
+                throw;
+            }
+        }
+
+        public async Task<bool> UpdateAttendanceHistory(Guid employeeId)
+        {
+            try
+            {
+                _unitOfWork.BeginTransaction();
+
+                var attendanceRepo = _unitOfWork.GetRepository<AttendanceHistory>();
+
+                var attendance = (await attendanceRepo.GetAsync(x => x.Employee.Id == employeeId,
+                                                                 x => x.OrderBy(x => x.Date))).LastOrDefault();
+
+                if (attendance != null && attendance.CheckedOut == null)
+                {
+                    attendance.CheckedOut = DateTime.UtcNow;
+                    await attendanceRepo.UpdateAsync(attendance);
+                }
+
+                await _unitOfWork.CommitAsync();
+                return true;
+            }
+            catch
+            {
+                await _unitOfWork.RollbackAsync();
+                throw;
+            }
+        }
+
         public Task SignOutAsync()
         {
             return _signInManager.SignOutAsync();
         }
-
-       
     }
 }

@@ -123,5 +123,42 @@ namespace ImmedisHCM.Services.Identity
                 return false;
             }
         }
+
+        public async Task<LocationServiceModel> GetEmployeeLocation(string email)
+        {
+            return _mapper.Map<LocationServiceModel>((await _unitOfWork.GetRepository<Employee>()
+                                                    .GetSingleAsync(x => x.Email == email))
+                                                    .Location);
+        }
+
+        public async Task<bool> CreateEmergencyContact(EmergencyContactServiceModel emergencyContact)
+        {
+            var model = _mapper.Map<EmergencyContact>(emergencyContact);
+            try
+            {
+                _unitOfWork.BeginTransaction();
+
+                var employeeRepo = _unitOfWork.GetRepository<Employee>();
+                var emergencyRepo = _unitOfWork.GetRepository<EmergencyContact>();
+                var locationRepository = _unitOfWork.GetRepository<Location>();
+
+                var employee = employeeRepo.GetById(emergencyContact.Employee.Id);
+
+                await locationRepository.AddItemAsync(model.Location);
+                await emergencyRepo.AddItemAsync(model);
+                
+                employee.EmergencyContact = model;
+
+                await employeeRepo.UpdateAsync(employee);
+
+                await _unitOfWork.CommitAsync();
+                return true;
+            }
+            catch
+            {
+                await _unitOfWork.RollbackAsync();
+                return false;
+            }
+        }
     }
 }

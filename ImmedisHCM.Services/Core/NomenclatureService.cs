@@ -34,7 +34,7 @@ namespace ImmedisHCM.Services.Core
         public async Task<List<CityServiceModel>> GetCitiesByCountryId(Guid countryId)
         {
             var model = await _unitOfWork.GetRepository<City>()
-                                         .GetAsync(filter:x => x.Country.Id == countryId , orderBy: x => x.OrderBy(x => x.Name));
+                                         .GetAsync(filter: x => x.Country.Id == countryId, orderBy: x => x.OrderBy(x => x.Name));
 
             return _mapper.Map<List<CityServiceModel>>(model);
         }
@@ -55,6 +55,14 @@ namespace ImmedisHCM.Services.Core
             return _mapper.Map<List<CountryServiceModel>>(model);
         }
 
+        public async Task<List<CountryServiceModel>> GetCountriesWithCities()
+        {
+            var model = await _unitOfWork.GetRepository<Country>()
+                                         .GetAsync(orderBy: x => x.OrderBy(x => x.Name), fetch: x => x.FetchMany(x => x.Cities));
+
+            return _mapper.Map<List<CountryServiceModel>>(model);
+        }
+
         public async Task<CountryServiceModel> GetCountry(Guid id)
         {
             var model = await _unitOfWork.GetRepository<Country>()
@@ -68,6 +76,14 @@ namespace ImmedisHCM.Services.Core
         {
             var model = await _unitOfWork.GetRepository<Currency>()
                                          .GetAsync(orderBy: x => x.OrderBy(x => x.Name));
+
+            return _mapper.Map<List<CurrencyServiceModel>>(model);
+        }
+
+        public async Task<List<CurrencyServiceModel>> GetCurrenciesWithSalaries()
+        {
+            var model = await _unitOfWork.GetRepository<Currency>()
+                                         .GetAsync(orderBy: x => x.OrderBy(x => x.Name), fetch: x => x.FetchMany(x => x.Salaries));
 
             return _mapper.Map<List<CurrencyServiceModel>>(model);
         }
@@ -92,6 +108,14 @@ namespace ImmedisHCM.Services.Core
         {
             var model = await _unitOfWork.GetRepository<SalaryType>()
                                          .GetAsync();
+
+            return _mapper.Map<List<SalaryTypeServiceModel>>(model);
+        }
+
+        public async Task<List<SalaryTypeServiceModel>> GetSalaryTypesWithSalaries()
+        {
+            var model = await _unitOfWork.GetRepository<SalaryType>()
+                                         .GetAsync(fetch: x => x.FetchMany(x => x.Salaries));
 
             return _mapper.Map<List<SalaryTypeServiceModel>>(model);
         }

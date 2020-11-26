@@ -1,0 +1,64 @@
+﻿@model CreateDepartmentViewModel
+
+@{
+    ViewData["Title"] = "Create Department";
+}
+
+<h1>Create Department</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateDepartment">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label asp-for="Address.AddressLine1"></label>
+                    <input asp-for="Address.AddressLine1" class="form-control" />
+                    <span asp-validation-for="Address.AddressLine1" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Address.AddressLine2"></label>
+                    <input asp-for="Address.AddressLine2" class="form-control" />
+                    <span asp-validation-for="Address.AddressLine2" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Address.PostalCode"></label>
+                    <input asp-for="Address.PostalCode" class="form-control" />
+                    <span asp-validation-for="Address.PostalCode" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="CountryId"></label>
+                    <select class="form-control js-get-cities" asp-for="CountryId" asp-items="@(new SelectList(Model.Countries,"Id","CombinedName", Model.CountryId))">
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="CityId" id="cities"></label>
+                    <select class="form-control js-set-cities" asp-for="CityId" asp-items="@(new SelectList(Model.Cities,"Id","Name", Model.CityId))">
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="CompanyId"></label>
+                    <select class="form-control js-get-departments" asp-for="CompanyId" asp-items="@(new SelectList(Model.Companies,"Id","Name", Model.CompanyId))">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

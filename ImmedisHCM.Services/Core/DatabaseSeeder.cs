@@ -93,7 +93,7 @@ namespace ImmedisHCM.Services.Core
                     cityList.Add(new City { Name = "Galway", Country = countryIreland });
 
                     var countryEngland = countryList.Single(x => x.Name == "England");
-                    cityList.Add(new City { Name = "Londol", Country = countryEngland });
+                    cityList.Add(new City { Name = "London", Country = countryEngland });
                     cityList.Add(new City { Name = "Liverpool", Country = countryEngland });
                     cityList.Add(new City { Name = "Norwich", Country = countryEngland });
 
@@ -179,7 +179,7 @@ namespace ImmedisHCM.Services.Core
                 {
                     var salaryTypeList = new List<SalaryType>
                     {
-                        new SalaryType { Name = "Weely" },
+                        new SalaryType { Name = "Weekly" },
                         new SalaryType { Name = "Hourly" },
                         new SalaryType { Name = "Monthly" }
                     };

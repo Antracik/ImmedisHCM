@@ -18,10 +18,12 @@ namespace ImmedisHCM.Data.Entities.Mappings
 
             Map(x => x.CheckedIn)
                 .Column("checked_in")
+                .CustomType("time")
                 .Not.Nullable();
 
             Map(x => x.CheckedOut)
                 .Column("checked_out")
+                .CustomType("time")
                 .Nullable();
 
             References(x => x.Employee)

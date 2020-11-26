@@ -9,7 +9,7 @@ namespace ImmedisHCM.Services.Mapping
     {
         public CompanyMapping()
         {
-            CreateMap<Company, CompanyServiceMolde>()
+            CreateMap<Company, CompanyServiceModel>()
                 .ForMember(dest => dest.Departments, opts => opts.PreCondition(src => NHibernateUtil.IsInitialized(src.Departments)))
                 .ReverseMap();
         }
